@@ -24,6 +24,15 @@ export async function validateResetPassword(values) {
     return errors;
 }
 
+export async function validateRegisterForm(values) {
+    const errors = verifyUsername({} , values);
+    verifyPassword(errors, values);
+    verifyEmail(errors, values);
+    return errors;
+}
+
+/* **************************************** */
+
 /** validate username */
 function verifyUsername(error = {}, values) {
     if (!values.username) { 
@@ -52,6 +61,21 @@ function verifyPassword(error = {}, values) {
     }
     else if (!specialChars.test(values.password)) {
         error.password = toast.error('Password must have a special character')
+    }
+
+    return error;
+}
+
+/** validate email */
+function verifyEmail(error = {}, values) {
+    if (!values.email) {
+        error.email = toast.error("Email required")
+    }
+    else if (values.email.includes(" ")) {
+        error.email = toast.error("Invalid email")
+    }
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        error.email = toast.error("Invalid email")
     }
 
     return error;
