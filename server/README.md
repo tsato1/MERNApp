@@ -9,3 +9,6 @@ npm i express cors mongoose mongodb-memory-server multer nodemon
 
 (morgan: to log http communications to console)
 npm i morgan
+
+for password encryption
+npm i bcrypt
