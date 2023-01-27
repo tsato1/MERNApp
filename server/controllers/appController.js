@@ -134,6 +134,25 @@ export async function login(req, res) {
 
 /** GET: http://localhost:8080/api/user/taro123 */
 export async function getUser(req, res) {
+    const {username} = req.params;
+
+    try {
+        if (!username) {
+            return res.status(501).send({error: "Invalid username"})
+        }
+
+        UserModel.findOne({username}, (error, user) => {
+            if (error) return res.status(500).send({error})
+            if (!user) return res.status(501).send({error: "Couldn't find user"})
+            
+            const {password, ...rest} = Object.assign({}, user.toJSON()) // convert the user to JSON and assign it to a new object{}
+
+            return res.status(201).send(rest)
+        })
+    }
+    catch (error) {
+        return res.status(404).send({error: "Cannot find user data"})
+    }
 
 }
 
