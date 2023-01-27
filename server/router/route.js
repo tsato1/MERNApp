@@ -9,7 +9,7 @@ import * as controller from '../controllers/appController.js'
 router.route('/register').post(controller.register)
 // router.route('/registerMail').post((req, res) => {})
 router.route('/authenticate').post((req, res) => {res.end();})
-router.route('/login').post(controller.login)
+router.route('/login').post(controller.verifyUser, controller.login) // this comma means the left side is middleware
 
 /** GET method */
 router.route('/user/:username').get(controller.getUser)
