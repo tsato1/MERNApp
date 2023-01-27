@@ -12,3 +12,6 @@ npm i morgan
 
 for password encryption
 npm i bcrypt
+
+jwt
+npm i jsonwebtoken
