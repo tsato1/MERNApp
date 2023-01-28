@@ -12,3 +12,6 @@ npm i formik
 
 react-hot-toast:
 npm i react-hot-toast
+
+axios
+npm i axios
