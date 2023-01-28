@@ -219,11 +219,47 @@ export async function createResetSession(req, res) {
         res.status(201).send({msg: "Access granted"})
     }
 
-    res.status(440).send({error: "Session expired"})
+    res.status(404).send({error: "Session expired"})
 }
 
 //update the password when a valid session is held
 /** PUT: http://localhost:8080/api/resetPassword  */
 export async function resetPassword(req, res) {
+    try {
+        if (!req.app.locals.resetSession) {
+            return res.status(404).send({error: "Session expired"})
+        }
 
+        const {username, password} = req.body
+
+        try {
+            UserModel.findOne({username})
+                .then(user => {
+                    bcrypt.hash(password, 10)
+                        .then(hashedPassword => {
+                            UserModel.updateOne(
+                                {username: user.username}, // select the entry to update
+                                {password: hashedPassword}, // update the password of the user
+                                function(error, data) {
+                                    if (error) throw error
+                                    req.app.locals.resetSession = false
+                                    return res.status(201).send({msg: "Record updated"})
+                                }
+                            )
+                        })
+                        .catch(error => {
+                            return res.status(500).send({error: "Unable to hash password"})
+                        })
+                })
+                .catch(error => {
+                    return res.status(404).send({error: "Username not found"})
+                })
+        }
+        catch(error) {
+            return res.status(500).send({error})
+        }
+    }
+    catch(error) {
+        return res.status(401).send({error})
+    }
 }
