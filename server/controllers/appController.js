@@ -2,6 +2,7 @@ import UserModel from "../model/User.model.js"
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import ENV from '../config.js'
+import otpGenerator from 'otp-generator'
 
 /** middleware for verifying user with jwt */
 export async function verifyUser(req, res, next) {
@@ -191,18 +192,34 @@ export async function updateUser(req, res) {
 
 /** GET: http://localhost:8080/api/generateOTP */
 export async function generateOTP(req, res) {
-
+    req.app.locals.OTP = await otpGenerator.generate(
+        6, {lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false}
+    )
+    res.status(201).send({code: req.app.locals.OTP})
 }
 
 /** GET: http://localhost:8080/api/verifyOTP */
 export async function verifyOTP(req, res) {
+    const { code } = req.query; // code is the code object created above in generateOTP() method
 
+    if (parseInt(req.app.locals.OTP) === parseInt(code)) {
+        req.app.locals.OTP = null; // reset the OTP value to allow access only once
+        req.app.locals.resetSession = true; // set the session for reset password
+        return res.status(201).send({msg: "OTP verification successful"})
+    }
+
+    return res.status(400).send({error: "Invalid OTP"})
 }
 
-// redirect user when OTP is valid
+// redirect user when OTP is valid. this is the session to reset password
 /** GET: http://localhost:8080/api/createResetSession */
 export async function createResetSession(req, res) {
+    if (req.app.locals.resetSession) {
+        req.app.locals.resetSession = false; // allow access only once
+        res.status(201).send({msg: "Access granted"})
+    }
 
+    res.status(440).send({error: "Session expired"})
 }
 
 //update the password when a valid session is held

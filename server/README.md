@@ -15,3 +15,6 @@ npm i bcrypt
 
 jwt
 npm i jsonwebtoken
+
+otp
+npm i otp-generator
