@@ -4,6 +4,7 @@ export default router;
 
 /** import all the controllers */
 import * as controller from '../controllers/appController.js'
+import Auth from "../middleware/auth.js";
 
 /** POST method */
 router.route('/register').post(controller.register)
@@ -18,5 +19,5 @@ router.route('/verifyOTP').get(controller.verifyOTP)
 router.route('/createResetSession').get(controller.createResetSession)
 
 /** PUT method */
-router.route('/updateUser').put(controller.updateUser)
+router.route('/updateUser').put(Auth, controller.updateUser)
 router.route('/resetPassword').put(controller.resetPassword)

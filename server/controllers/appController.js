@@ -168,13 +168,13 @@ export async function getUser(req, res) {
 */
 export async function updateUser(req, res) {
     try {
-        const id = req.query.id
+        const { userId } = req.user // req has user object that is set in Auth() (middleware/auth.js)
 
-        if (id) {
+        if (userId) {
             const body = req.body
 
             //update the data
-            UserModel.updateOne({_id: id}, body, function(error, data) {
+            UserModel.updateOne({_id: userId}, body, function(error, data) {
                 if (error) throw error;
 
                 return res.status(201).send({msg: "Record updated"})
