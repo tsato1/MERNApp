@@ -18,3 +18,7 @@ npm i jsonwebtoken
 
 otp
 npm i otp-generator
+
+mail
+npm i nodemailer mailgen
+- create an account at Ethereal
