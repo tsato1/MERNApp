@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defailts.baseURL = process.env.REACT_APP_SERVER_DOMAIN
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN
 
 /** make api requests */
 
@@ -72,7 +72,7 @@ export async function updateUser(response) {
 /** generate otp */
 export async function generateOTP(username) {
     try {
-        const { data: { code }, status } = await axios.get('/api/generateOTP', { params: { usernmae } })
+        const { data: { code }, status } = await axios.get('/api/generateOTP', { params: { username } })
         
         /** send email with otp */
         if (status === 201) {

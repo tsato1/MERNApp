@@ -15,3 +15,6 @@ npm i react-hot-toast
 
 axios
 npm i axios
+
+zustand
+npm i zustand
