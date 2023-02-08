@@ -18,3 +18,6 @@ npm i axios
 
 zustand
 npm i zustand
+
+jwt
+npm i jwt-decode
