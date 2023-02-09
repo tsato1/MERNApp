@@ -90,6 +90,7 @@ function verifyEmail(error = {}, values) {
     else if (values.email.includes(" ")) {
         error.email = toast.error("Invalid email")
     }
+    // commenting out not to catch ethereal emails 
     // else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     //     error.email = toast.error("Invalid email")
     // }
