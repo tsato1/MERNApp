@@ -1,6 +1,9 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+/** auth middleware */
+import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+
 /** import all components */
 import Username from './components/Username'
 import Password from './components/Password'
@@ -22,11 +25,11 @@ const router = createBrowserRouter(
     },
     {
       path: "/password",
-      element: <Password />
+      element: <ProtectRoute><Password /></ProtectRoute>
     },
     {
       path: "/profile",
-      element: <Profile />
+      element: <AuthorizeUser><Profile /></AuthorizeUser>
     },
     {
       path: "/recovery",

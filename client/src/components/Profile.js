@@ -4,7 +4,6 @@ import avatar from '../assets/profile.png'
 import toast, { Toaster } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { validateProfile } from '../helper/validate'
-import { useAuthStore } from '../store/store'
 import convertToBase64 from '../helper/convert'
 import useFetch from '../hooks/fetch.hook'
 import { updateUser } from '../helper/helper'
@@ -42,7 +41,6 @@ export default function Profile() {
           success: <b>Update successful</b>,
           error: <b>Couldn't update</b>
         })
-        console.log(values)
       }
     }
   )
@@ -95,7 +93,7 @@ export default function Profile() {
               </div>
               
               <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />  
-              <button className={styles.btn} type="submit">Register</button>
+              <button className={styles.btn} type="submit">Update</button>
               
             </div>
 

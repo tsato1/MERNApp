@@ -174,6 +174,9 @@ export async function updateUser(req, res) {
         if (userId) {
             const body = req.body
 
+            console.log('firstName = ' + body.firstName)
+            console.log('lastName = ' + body.lastName)
+
             //update the data
             UserModel.updateOne({_id: userId}, body, function(error, data) {
                 if (error) throw error;
@@ -215,8 +218,7 @@ export async function verifyOTP(req, res) {
 /** GET: http://localhost:8080/api/createResetSession */
 export async function createResetSession(req, res) {
     if (req.app.locals.resetSession) {
-        req.app.locals.resetSession = false; // allow access only once
-        res.status(201).send({msg: "Access granted"})
+        return res.status(201).send({flag: req.app.locals.resetSession})
     }
 
     res.status(404).send({error: "Session expired"})
@@ -225,6 +227,7 @@ export async function createResetSession(req, res) {
 //update the password when a valid session is held
 /** PUT: http://localhost:8080/api/resetPassword  */
 export async function resetPassword(req, res) {
+    console.log('resetPassword backend!!!')
     try {
         if (!req.app.locals.resetSession) {
             return res.status(404).send({error: "Session expired"})
@@ -233,6 +236,7 @@ export async function resetPassword(req, res) {
         const {username, password} = req.body
 
         try {
+            console.log('resetPassword backend!!! inside try')
             UserModel.findOne({username})
                 .then(user => {
                     bcrypt.hash(password, 10)
